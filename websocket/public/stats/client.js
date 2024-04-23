@@ -75,6 +75,10 @@ const DisplayCityStats = (cityStats) => {
 socket.onmessage = function (event) {
     const dataFromServer = JSON.parse(event.data); // Analyser les données JSON du serveur
     // console.log(dataFromServer); // Console.log des données reçues à des fins de débogage
+    if(dataFromServer){
+        toastr.success('Data Fetched!')
+    }
+
     let cityStats = PrepareData(dataFromServer)
     DisplayCityStats(cityStats);
 
