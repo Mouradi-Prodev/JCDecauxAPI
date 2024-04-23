@@ -2,9 +2,12 @@ import asyncio
 import websockets
 import requests
 import json
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 # Definition du logique du serveur websocket
-async def server(websocket, path):
+async def server(websocket):
     # Simulation d'envoie des messages aux clients connectés
     while True:
         try:
@@ -18,14 +21,17 @@ async def server(websocket, path):
                 stations = response.json()
                 # Envoi des données JSON par connexion WebSocket
                 await websocket.send(json.dumps(stations))
+                logging.info("Données envoyées avec succès.")
             else:
                 await websocket.send("Erreur de recherche de données du serveur")
+                logging.error(f"Erreur de recherche de données du serveur: {response.status_code}")
 
             await asyncio.sleep(60)  # Envoyons les données toutes les 60 secondes
         except websockets.exceptions.ConnectionClosedError:
             # Traitons le cas  où un client se déconnecterait
-            print('Client déconnecté')
+            logging.warning('Client déconnecté')
             break
+        
 
 # Lancement du WebSocket server au port 8765 localement
 start_server = websockets.serve(server, "localhost", 8765)

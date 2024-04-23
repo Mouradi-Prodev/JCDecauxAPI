@@ -51,6 +51,8 @@ const DisplayCityStats = (cityStats) => {
     cityArray.sort((a, b) => b[1].totalBikes - a[1].totalBikes);
     // console.log(cityArray) Debogage
 
+    $(".data").empty() ;// Vider la div data avant l'affichage des données
+    /* Affichage des stats */
     for (let [city, stats] of cityArray) {
         let row = $("<tr>");
         let totalBikes = stats.totalBikes;
@@ -62,6 +64,7 @@ const DisplayCityStats = (cityStats) => {
         row.append($("<td>").text(mechanicalPercentage.toFixed(2) + '%'));
         row.append($("<td>").text(totalBikes));
 
+        
         $(".data").append(row);
 
     }
